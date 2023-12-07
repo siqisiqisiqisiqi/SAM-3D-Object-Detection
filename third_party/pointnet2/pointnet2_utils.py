@@ -13,11 +13,8 @@ from torch.autograd import Function
 import torch.nn as nn
 import pytorch_utils as pt_utils
 import sys
+import builtins
 
-try:
-    import builtins
-except:
-    import __builtin__ as builtins
 
 try:
     import pointnet2._ext as _ext
@@ -48,8 +45,7 @@ class RandomDropout(nn.Module):
 class FurthestPointSampling(Function):
     @staticmethod
     def forward(ctx, xyz, npoint):
-        # type: (Any, torch.Tensor, int) -> torch.Tensor
-        r"""
+        """
         Uses iterative furthest point sampling to select a set of npoint features that have the largest
         minimum distance
 
@@ -80,8 +76,7 @@ furthest_point_sample = FurthestPointSampling.apply
 class GatherOperation(Function):
     @staticmethod
     def forward(ctx, features, idx):
-        # type: (Any, torch.Tensor, torch.Tensor) -> torch.Tensor
-        r"""
+        """
 
         Parameters
         ----------
@@ -117,7 +112,6 @@ gather_operation = GatherOperation.apply
 class ThreeNN(Function):
     @staticmethod
     def forward(ctx, unknown, known):
-        # type: (Any, torch.Tensor, torch.Tensor) -> Tuple[torch.Tensor, torch.Tensor]
         r"""
             Find the three nearest neighbors of unknown in known
         Parameters
@@ -175,7 +169,6 @@ class ThreeInterpolate(Function):
 
     @staticmethod
     def backward(ctx, grad_out):
-        # type: (Any, torch.Tensor) -> Tuple[torch.Tensor, torch.Tensor, torch.Tensor]
         r"""
         Parameters
         ----------
@@ -206,7 +199,6 @@ three_interpolate = ThreeInterpolate.apply
 class GroupingOperation(Function):
     @staticmethod
     def forward(ctx, features, idx):
-        # type: (Any, torch.Tensor, torch.Tensor) -> torch.Tensor
         r"""
 
         Parameters
@@ -230,7 +222,6 @@ class GroupingOperation(Function):
 
     @staticmethod
     def backward(ctx, grad_out):
-        # type: (Any, torch.tensor) -> Tuple[torch.Tensor, torch.Tensor]
         r"""
 
         Parameters
@@ -257,7 +248,6 @@ grouping_operation = GroupingOperation.apply
 class BallQuery(Function):
     @staticmethod
     def forward(ctx, radius, nsample, xyz, new_xyz):
-        # type: (Any, float, int, torch.Tensor, torch.Tensor) -> torch.Tensor
         r"""
 
         Parameters
@@ -301,7 +291,6 @@ class QueryAndGroup(nn.Module):
     """
 
     def __init__(self, radius, nsample, use_xyz=True, ret_grouped_xyz=False, normalize_xyz=False, sample_uniformly=False, ret_unique_cnt=False):
-        # type: (QueryAndGroup, float, int, bool) -> None
         super(QueryAndGroup, self).__init__()
         self.radius, self.nsample, self.use_xyz = radius, nsample, use_xyz
         self.ret_grouped_xyz = ret_grouped_xyz
@@ -312,7 +301,6 @@ class QueryAndGroup(nn.Module):
             assert(self.sample_uniformly)
 
     def forward(self, xyz, new_xyz, features=None):
-        # type: (QueryAndGroup, torch.Tensor. torch.Tensor, torch.Tensor) -> Tuple[Torch.Tensor]
         r"""
         Parameters
         ----------
@@ -387,7 +375,7 @@ class GroupAll(nn.Module):
         self.use_xyz = use_xyz
 
     def forward(self, xyz, new_xyz, features=None):
-        # type: (GroupAll, torch.Tensor, torch.Tensor, torch.Tensor) -> Tuple[torch.Tensor]
+
         r"""
         Parameters
         ----------
